@@ -1,5 +1,5 @@
 Create Window
 Render two cubes
-    - light source
-    - container
-    
+    - connect shaders
+        - light source  
+        - container
