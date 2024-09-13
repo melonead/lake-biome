@@ -1,16 +1,27 @@
 #pragma once
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
 #include <string.h>
-#include <glad/glad.h>
-#include <glfw/glfw3.h>
 #include <malloc.h>
 
+#include <iostream>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+
+
+// URGENT: make better error message incase a file is not found
 
 void read_shader_code(char* res, const char* path) {
     char* buffer = (char*) malloc(2000);
     FILE* fp = fopen(path, "r");
+    if (fp == NULL) {
+        printf("wrong path");
+    }
     while (fgets(buffer, 2000, fp)  != NULL) {
         strcat(res, buffer);
     }
@@ -20,9 +31,9 @@ void read_shader_code(char* res, const char* path) {
 
 /* load and compile shader source */
 unsigned int load_shaders(const char* vPath, const char* fPath) {
+    
     unsigned int id = 0;
     unsigned int vertex, fragment;
-    
     int success;
     char infoLog[512];
     // compile vertex shader
@@ -51,6 +62,7 @@ unsigned int load_shaders(const char* vPath, const char* fPath) {
         glGetShaderInfoLog(fragment, 512, NULL, infoLog);
         printf("fragment shader compilation failed: %s", infoLog);
     } 
+
     id = glCreateProgram();
     glAttachShader(id, vertex);
     glAttachShader(id, fragment);
@@ -88,26 +100,7 @@ void setFloat(const char* name, float value, unsigned int ID)
 }
 
 
-
-
-// void setMatrix4fv(const char* name, glm::mat4 value, unsigned int ID)
-// {
-//     glUniformMatrix4fv(glGetUniformLocation(ID, name), 1, GL_FALSE, glm::value_ptr(value));
-// }
-
-void setBool(const std::string& name, bool value) const
+void setMatrix4fv(const char* name, glm::mat4 value, unsigned int ID)
 {
-    glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
-}
-void setInt(const std::string& name, int value) const
-{
-    glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
-}
-void setFloat(const std::string& name, float value) const
-{
-    glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
-}
-void setMatrix4fv(const string name, glm::mat4 value) const
-{
-    glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
+    glUniformMatrix4fv(glGetUniformLocation(ID, name), 1, GL_FALSE, glm::value_ptr(value));
 }

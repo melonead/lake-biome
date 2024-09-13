@@ -5,3 +5,5 @@ void setBool(const char* name, bool value, unsigned int ID);
 void setInt(const char* name, int value, unsigned int ID);
 
 void setFloat(const char* name, float value, unsigned int ID);
+
+void setMatrix4fv(const char* name, glm::mat4 value, unsigned int ID);
