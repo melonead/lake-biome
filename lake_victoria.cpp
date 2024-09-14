@@ -121,6 +121,14 @@ int main() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
+    /* light source stuff */
+    unsigned int LIGHT_SOURCE_VBO;
+    glGenBuffers(1, &LIGHT_SOURCE_VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, LIGHT_SOURCE_VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
 
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -132,13 +140,13 @@ int main() {
         glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(model));        
 
         view_loc = glGetUniformLocation(container_shader, "view");
-        glUniformMatrix4fv(model_loc, 1, GL_FALSE, glm::value_ptr(view));
+        glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(view));
         
         projection_loc = glGetUniformLocation(container_shader, "projection");
         glUniformMatrix4fv(projection_loc, 1, GL_FALSE, glm::value_ptr(projection));
 
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
         
 
         glfwSwapBuffers(window);
