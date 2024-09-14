@@ -8,9 +8,22 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "settings.h"
 #include "shader.h"
+#include "camera.h"
 
-void processInput(GLFWwindow* window);
+void processInput(GLFWwindow* window, struct Camera *camera);
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+
+struct mouse_camera_data {
+    float pitch = -90.0f;
+    float yaw = -90.0f;
+    float last_x = 300;
+    float last_y = 300;
+    float zoom;
+    bool first_mouse = true;
+    glm::vec3 direction;
+    glm::vec3 front;
+} mouse_cam_data;
 
 int main() {
     // glfw: initialize and configure
@@ -42,6 +55,8 @@ int main() {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetWindowSizeLimits(window, SCR_WIDTH, SCR_HEIGHT, SCR_WIDTH, SCR_HEIGHT);
 
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetCursorPosCallback(window, mouse_callback);
     // glad: load all OpenGL function pointers
     // ---------------------------------------
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -101,13 +116,13 @@ int main() {
     unsigned int container_shader = load_shaders("../shaders/containerVert.glsl", "../shaders/containerFrag.glsl");
     /* transformation data */
     glm::mat4 model, view, projection;
-    glm::vec3 view_pos = glm::vec3(0.0f, 0.0f,-3.0f);
+    glm::vec3 view_pos = glm::vec3(0.0f, 0.0f,-20.0f);
     int view_pos_loc;
     model      = glm::mat4(1.0f);
     model      = glm::rotate(model, glm::radians(55.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     model      = glm::scale(model, glm::vec3(0.8f));
     view       = glm::mat4(1.0f);
-    view       = glm::translate(view, view_pos);
+    view       = glm::translate(view, glm::vec3(0.0, 0.0, 0.0));
     projection = glm::perspective(glm::radians(45.0f), 600.0f / 600.0f, 0.1f, 100.0f);
 
     int model_loc, view_loc, projection_loc;
@@ -153,6 +168,12 @@ int main() {
     int ls_model_loc;
 
     double mouse_xpos, mouse_ypos;
+
+    /* set up camera data */   
+    struct Camera camera;
+    const float camera_rotation_radius = 10.0f;
+    set_up_camera(&camera, view_pos, glm::vec3(0.0, 0.0, 0.0));
+
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         
@@ -163,8 +184,17 @@ int main() {
         // light_source_pos.x = mouse_xpos;
         // light_source_pos.y = mouse_ypos;
         // ls_model      = glm::translate(ls_model, light_source_pos);
-
-        /* container shading */
+        
+        /* camera stuff */
+        // camera.position.x = sin(glfwGetTime()) * camera_rotation_radius;
+        // camera.position.y = cos(glfwGetTime()) * camera_rotation_radius;
+        //view = glm::lookAt(camera.position, camera.position + mouse_cam_data.front, glm::vec3(0.0, 1.0, 0.0));
+        camera.direction.x = mouse_cam_data.direction.x;
+        camera.direction.y = mouse_cam_data.direction.y;
+        camera.direction.z = mouse_cam_data.direction.z;
+        camera.direction   = glm::normalize(camera.direction);
+        //printf("camera.direction.z  = %f\n", camera.direction.z);
+        view = update_camera(&camera, camera.position + camera.direction);
         glUseProgram(container_shader);
 
         model_loc = glGetUniformLocation(container_shader, "model");
@@ -180,7 +210,7 @@ int main() {
         glUniform3fv(light_source_pos_loc, 1, glm::value_ptr(light_source_pos));
 
         view_pos_loc = glGetUniformLocation(container_shader, "view_pos");
-        glUniform3fv(view_pos_loc, 1, glm::value_ptr(view_pos));
+        glUniform3fv(view_pos_loc, 1, glm::value_ptr(camera.position));
 
         glBindVertexArray(VAO);
         glEnable(GL_DEPTH_TEST);
@@ -208,7 +238,7 @@ int main() {
         
 
         glfwSwapBuffers(window);
-        processInput(window);
+        processInput(window, &camera);
         glfwPollEvents();
     }
 }
@@ -220,8 +250,64 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
-void processInput(GLFWwindow* window)
-{
+void processInput(GLFWwindow* window, struct Camera *camera)
+{   
+    const float camera_speed = 0.002f;
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+    
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        camera->position += camera_speed * camera->direction;
+
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        camera->position -= camera_speed * camera->direction;
+
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        camera->position -= glm::normalize(glm::cross(camera->direction, camera->up_axis)) * camera_speed;
+
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        camera->position += glm::normalize(glm::cross(camera->direction, camera->up_axis)) * camera_speed;
 }
+
+void mouse_callback(GLFWwindow *window, double xpos, double ypos) {
+    if (mouse_cam_data.first_mouse) {
+        mouse_cam_data.last_x = xpos;
+        mouse_cam_data.last_y = ypos;
+        mouse_cam_data.first_mouse = false;
+    }
+
+    float x_offset = xpos - mouse_cam_data.last_x;
+    float y_offset = mouse_cam_data.last_y - ypos;
+    mouse_cam_data.last_x = xpos;
+    mouse_cam_data.last_y = ypos;
+
+    float sensitivity = 0.1f;
+    x_offset *= sensitivity;
+    y_offset *= sensitivity;
+
+    mouse_cam_data.pitch += y_offset;
+    mouse_cam_data.yaw   += x_offset;
+
+    printf("yaw = %f\n", mouse_cam_data.yaw);
+    printf("x_offset = %f\n", x_offset);
+
+
+    if (mouse_cam_data.pitch > 89.0f)
+        mouse_cam_data.pitch = 89.0f;
+    if (mouse_cam_data.pitch < -89.0f)
+        mouse_cam_data.pitch = -89.0f;
+
+    mouse_cam_data.direction.x = cos(glm::radians(mouse_cam_data.yaw)) * cos(glm::radians(mouse_cam_data.pitch));
+    mouse_cam_data.direction.y = sin(glm::radians(mouse_cam_data.pitch));
+    mouse_cam_data.direction.z = sin(glm::radians(mouse_cam_data.yaw)) * cos(glm::radians(mouse_cam_data.pitch));
+    
+}
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+ {
+    mouse_cam_data.zoom-= (float)yoffset;
+    if (mouse_cam_data.zoom < 1.0f)
+        mouse_cam_data.zoom = 1.0f;
+    if (mouse_cam_data.zoom > 45.0f)
+        mouse_cam_data.zoom = 45.0f;
+ }

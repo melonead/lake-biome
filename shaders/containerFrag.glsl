@@ -11,11 +11,11 @@ void main() {
     // ambient light
     float ambient_strength = 0.1;
     vec3 light_color       = vec3(1.0, 1.0, 1.0);
-    vec3 object_color      = vec3(0.0, 1.0, 0.0);
+    vec3 object_color      = vec3(1.0, 0.0, 0.0);
     vec3 ambient           = ambient_strength * light_color;
 
     // diffuse light
-    float diffuse_strength = 1.0;
+    float diffuse_strength = 0.3;
     vec3 norm      = normalize(Normal);
     vec3 light_dir = normalize(light_pos - FragPos);
 
