@@ -67,7 +67,7 @@ int main() {
         -0.5f, 0.5f, 0.5f,   0.0f, 0.0f, 1.0f,  0.0f, 1.0f,
         -0.5f,-0.5f, 0.5f,   0.0f, 0.0f, 1.0f,  0.0f, 0.0f,
  
-         0.5f, 0.5f, 0.5f,  -1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
+        -0.5f, 0.5f, 0.5f,  -1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
         -0.5f, 0.5f,-0.5f,  -1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
         -0.5f,-0.5f,-0.5f,  -1.0f, 0.0f, 0.0f,  0.0f, 1.0f,
         -0.5f,-0.5f,-0.5f,  -1.0f, 0.0f, 0.0f,  0.0f, 1.0f,
@@ -155,8 +155,9 @@ int main() {
     double mouse_xpos, mouse_ypos;
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glEnable(GL_DEPTH_TEST);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+        glClear(GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT);
 
         glfwGetCursorPos(window, &mouse_xpos, &mouse_ypos);
         // light_source_pos.x = mouse_xpos;
@@ -182,6 +183,8 @@ int main() {
         glUniform3fv(view_pos_loc, 1, glm::value_ptr(view_pos));
 
         glBindVertexArray(VAO);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LEQUAL);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         /* light source shading */
@@ -197,6 +200,8 @@ int main() {
         glUniformMatrix4fv(projection_loc, 1, GL_FALSE, glm::value_ptr(projection));
 
         glBindVertexArray(VAO);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LEQUAL);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
 

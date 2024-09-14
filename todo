@@ -3,3 +3,5 @@ Render two cubes
     - connect shaders
         - light source  
         - container
+Implement a Camera:
+    - move(rotational, translational)
