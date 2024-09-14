@@ -51,50 +51,51 @@ int main() {
     }
 
     /*-------------------------vertices--------------------------*/
-    float vertices[] = {
-        -0.5f,-0.5f,-0.5f, 0.0f, 0.0f,-1.0f, 0.0f, 0.0f,
-         0.5f,-0.5f,-0.5f, 0.0f, 0.0f,-1.0f, 1.0f, 0.0f,
-         0.5f, 0.5f,-0.5f, 0.0f, 0.0f,-1.0f, 1.0f, 1.0f,
-         0.5f, 0.5f,-0.5f, 0.0f, 0.0f,-1.0f, 1.0f, 1.0f,
-        -0.5f, 0.5f,-0.5f, 0.0f, 0.0f,-1.0f, 0.0f, 1.0f,
-        -0.5f,-0.5f,-0.5f, 0.0f, 0.0f,-1.0f, 0.0f, 0.0f,
-
-        -0.5f,-0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-         0.5f,-0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-         0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-         0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-        -0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-        -0.5f,-0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-
-         0.5f, 0.5f, 0.5f,-1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-        -0.5f, 0.5f,-0.5f,-1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-        -0.5f,-0.5f,-0.5f,-1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-        -0.5f,-0.5f,-0.5f,-1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-        -0.5f,-0.5f, 0.5f,-1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        -0.5f, 0.5f, 0.5f,-1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-
-         0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-         0.5f, 0.5f,-0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-         0.5f,-0.5f,-0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-         0.5f,-0.5f,-0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-         0.5f,-0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-         0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-
-        -0.5f,-0.5f,-0.5f, 0.0f,-1.0f, 0.0f, 0.0f, 1.0f,
-         0.5f,-0.5f,-0.5f, 0.0f,-1.0f, 0.0f, 1.0f, 1.0f,
-         0.5f,-0.5f, 0.5f, 0.0f,-1.0f, 0.0f, 1.0f, 0.0f,
-         0.5f,-0.5f, 0.5f, 0.0f,-1.0f, 0.0f, 1.0f, 0.0f,
-         -0.5f,-0.5f, 0.5f, 0.0f,-1.0f, 0.0f, 0.0f, 0.0f,
-         -0.5f,-0.5f,-0.5f, 0.0f,-1.0f, 0.0f, 0.0f, 1.0f,
-
-         -0.5f, 0.5f,-0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-         0.5f, 0.5f,-0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-         0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-         0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-         -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-         -0.5f, 0.5f,-0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f
-    };
-
+    float vertices[] = { 
+        // position          // normal          // texture coords
+        -0.5f,-0.5f,-0.5f,   0.0f, 0.0f,-1.0f,  0.0f, 0.0f,
+         0.5f,-0.5f,-0.5f,   0.0f, 0.0f,-1.0f,  1.0f, 0.0f,
+         0.5f, 0.5f,-0.5f,   0.0f, 0.0f,-1.0f,  1.0f, 1.0f,
+         0.5f, 0.5f,-0.5f,   0.0f, 0.0f,-1.0f,  1.0f, 1.0f,
+        -0.5f, 0.5f,-0.5f,   0.0f, 0.0f,-1.0f,  0.0f, 1.0f,
+        -0.5f,-0.5f,-0.5f,   0.0f, 0.0f,-1.0f,  0.0f, 0.0f,
+ 
+        -0.5f,-0.5f, 0.5f,   0.0f, 0.0f, 1.0f,  0.0f, 0.0f,
+         0.5f,-0.5f, 0.5f,   0.0f, 0.0f, 1.0f,  1.0f, 0.0f,
+         0.5f, 0.5f, 0.5f,   0.0f, 0.0f, 1.0f,  1.0f, 1.0f,
+         0.5f, 0.5f, 0.5f,   0.0f, 0.0f, 1.0f,  1.0f, 1.0f,
+        -0.5f, 0.5f, 0.5f,   0.0f, 0.0f, 1.0f,  0.0f, 1.0f,
+        -0.5f,-0.5f, 0.5f,   0.0f, 0.0f, 1.0f,  0.0f, 0.0f,
+ 
+         0.5f, 0.5f, 0.5f,  -1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
+        -0.5f, 0.5f,-0.5f,  -1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
+        -0.5f,-0.5f,-0.5f,  -1.0f, 0.0f, 0.0f,  0.0f, 1.0f,
+        -0.5f,-0.5f,-0.5f,  -1.0f, 0.0f, 0.0f,  0.0f, 1.0f,
+        -0.5f,-0.5f, 0.5f,  -1.0f, 0.0f, 0.0f,  0.0f, 0.0f,
+        -0.5f, 0.5f, 0.5f,  -1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
+ 
+         0.5f, 0.5f, 0.5f,   1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
+         0.5f, 0.5f,-0.5f,   1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
+         0.5f,-0.5f,-0.5f,   1.0f, 0.0f, 0.0f,  0.0f, 1.0f,
+         0.5f,-0.5f,-0.5f,   1.0f, 0.0f, 0.0f,  0.0f, 1.0f,
+         0.5f,-0.5f, 0.5f,   1.0f, 0.0f, 0.0f,  0.0f, 0.0f,
+         0.5f, 0.5f, 0.5f,   1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
+ 
+        -0.5f,-0.5f,-0.5f,   0.0f,-1.0f, 0.0f,  0.0f, 1.0f,
+         0.5f,-0.5f,-0.5f,   0.0f,-1.0f, 0.0f,  1.0f, 1.0f,
+         0.5f,-0.5f, 0.5f,   0.0f,-1.0f, 0.0f,  1.0f, 0.0f,
+         0.5f,-0.5f, 0.5f,   0.0f,-1.0f, 0.0f,  1.0f, 0.0f,
+        -0.5f,-0.5f, 0.5f,   0.0f,-1.0f, 0.0f,  0.0f, 0.0f,
+        -0.5f,-0.5f,-0.5f,   0.0f,-1.0f, 0.0f,  0.0f, 1.0f,
+ 
+        -0.5f, 0.5f,-0.5f,   0.0f, 1.0f, 0.0f,  0.0f, 1.0f,
+         0.5f, 0.5f,-0.5f,   0.0f, 1.0f, 0.0f,  1.0f, 1.0f,
+         0.5f, 0.5f, 0.5f,   0.0f, 1.0f, 0.0f,  1.0f, 0.0f,
+         0.5f, 0.5f, 0.5f,   0.0f, 1.0f, 0.0f,  1.0f, 0.0f,
+        -0.5f, 0.5f, 0.5f,   0.0f, 1.0f, 0.0f,  0.0f, 0.0f,
+        -0.5f, 0.5f,-0.5f,   0.0f, 1.0f, 0.0f,  0.0f, 1.0f
+    }; 
+ 
     /* load shaders */
 
     unsigned int container_shader = load_shaders("../shaders/containerVert.glsl", "../shaders/containerFrag.glsl");
@@ -102,9 +103,10 @@ int main() {
     glm::mat4 model, view, projection;
 
     model      = glm::mat4(1.0f);
-    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    model      = glm::rotate(model, glm::radians(55.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    model      = glm::scale(model, glm::vec3(0.8f));
     view       = glm::mat4(1.0f);
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f,-3.0f));
+    view       = glm::translate(view, glm::vec3(0.0f, 0.0f,-3.0f));
     projection = glm::perspective(glm::radians(45.0f), 600.0f / 600.0f, 0.1f, 100.0f);
 
     int model_loc, view_loc, projection_loc;
@@ -118,22 +120,49 @@ int main() {
     glBindBuffer(GL_ARRAY_BUFFER, CONTAINER_VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     
+    // position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
+    // normal attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) (3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
     /* light source stuff */
+    unsigned int light_source_shader = load_shaders("../shaders/lightSourceVert.glsl", "../shaders/lightSourceFrag.glsl");
     unsigned int LIGHT_SOURCE_VBO;
+    glBindVertexArray(VAO);
     glGenBuffers(1, &LIGHT_SOURCE_VBO);
     glBindBuffer(GL_ARRAY_BUFFER, LIGHT_SOURCE_VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    // position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
+    glm::mat4 ls_model;
+    glm::vec3 light_source_pos = glm::vec3(-10.0f, 0.0f, 0.0f);
+    int light_source_pos_loc;
 
+    ls_model      = glm::mat4(1.0f);
+    ls_model      = glm::rotate(ls_model, glm::radians(-5.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    ls_model      = glm::scale(ls_model, glm::vec3(0.1f));
+    ls_model      = glm::translate(ls_model, light_source_pos);
+
+    int ls_model_loc;
+
+    double mouse_xpos, mouse_ypos;
     while (!glfwWindowShouldClose(window)) {
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        glEnable(GL_DEPTH_TEST);
+        glfwGetCursorPos(window, &mouse_xpos, &mouse_ypos);
+        // light_source_pos.x = mouse_xpos;
+        // light_source_pos.y = mouse_ypos;
+        // ls_model      = glm::translate(ls_model, light_source_pos);
+
+        /* container shading */
         glUseProgram(container_shader);
 
         model_loc = glGetUniformLocation(container_shader, "model");
@@ -145,8 +174,28 @@ int main() {
         projection_loc = glGetUniformLocation(container_shader, "projection");
         glUniformMatrix4fv(projection_loc, 1, GL_FALSE, glm::value_ptr(projection));
 
+        light_source_pos_loc = glGetUniformLocation(container_shader, "light_pos");
+        glUniform3fv(light_source_pos_loc, 1, glm::value_ptr(light_source_pos));
+
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        /* light source shading */
+        glUseProgram(light_source_shader);
+
+        ls_model_loc = glGetUniformLocation(light_source_shader, "ls_model");
+        glUniformMatrix4fv(ls_model_loc, 1, GL_FALSE, glm::value_ptr(ls_model));
+
+        view_loc = glGetUniformLocation(light_source_shader, "view");
+        glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(view));
+
+        projection_loc = glGetUniformLocation(light_source_shader, "projection");
+        glUniformMatrix4fv(projection_loc, 1, GL_FALSE, glm::value_ptr(projection));
+
+        glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+
         
 
         glfwSwapBuffers(window);
