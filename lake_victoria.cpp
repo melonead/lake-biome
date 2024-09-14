@@ -101,12 +101,13 @@ int main() {
     unsigned int container_shader = load_shaders("../shaders/containerVert.glsl", "../shaders/containerFrag.glsl");
     /* transformation data */
     glm::mat4 model, view, projection;
-
+    glm::vec3 view_pos = glm::vec3(0.0f, 0.0f,-3.0f);
+    int view_pos_loc;
     model      = glm::mat4(1.0f);
     model      = glm::rotate(model, glm::radians(55.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     model      = glm::scale(model, glm::vec3(0.8f));
     view       = glm::mat4(1.0f);
-    view       = glm::translate(view, glm::vec3(0.0f, 0.0f,-3.0f));
+    view       = glm::translate(view, view_pos);
     projection = glm::perspective(glm::radians(45.0f), 600.0f / 600.0f, 0.1f, 100.0f);
 
     int model_loc, view_loc, projection_loc;
@@ -154,9 +155,9 @@ int main() {
     double mouse_xpos, mouse_ypos;
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glEnable(GL_DEPTH_TEST);
         glfwGetCursorPos(window, &mouse_xpos, &mouse_ypos);
         // light_source_pos.x = mouse_xpos;
         // light_source_pos.y = mouse_ypos;
@@ -176,6 +177,9 @@ int main() {
 
         light_source_pos_loc = glGetUniformLocation(container_shader, "light_pos");
         glUniform3fv(light_source_pos_loc, 1, glm::value_ptr(light_source_pos));
+
+        view_pos_loc = glGetUniformLocation(container_shader, "view_pos");
+        glUniform3fv(view_pos_loc, 1, glm::value_ptr(view_pos));
 
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
