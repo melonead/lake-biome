@@ -9,6 +9,7 @@
 #include "settings.h"
 #include "shader.h"
 #include "camera.h"
+#include "ground.h"
 
 void processInput(GLFWwindow* window, struct Camera *camera);
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -116,13 +117,14 @@ int main() {
     unsigned int container_shader = load_shaders("../shaders/containerVert.glsl", "../shaders/containerFrag.glsl");
     /* transformation data */
     glm::mat4 model, view, projection;
-    glm::vec3 view_pos = glm::vec3(0.0f, 0.0f,-20.0f);
+    glm::vec3 view_pos = glm::vec3(0.0f, 0.0f, -30.0f);
     int view_pos_loc;
     model      = glm::mat4(1.0f);
+    model      = glm::translate(model, glm::vec3(0.0, 0.0, 0.0));
     model      = glm::rotate(model, glm::radians(55.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    model      = glm::scale(model, glm::vec3(0.8f));
+    model      = glm::scale(model, glm::vec3(0.5f));
     view       = glm::mat4(1.0f);
-    view       = glm::translate(view, glm::vec3(0.0, 0.0, 0.0));
+    view       = glm::translate(view, view_pos);
     projection = glm::perspective(glm::radians(45.0f), 600.0f / 600.0f, 0.1f, 100.0f);
 
     int model_loc, view_loc, projection_loc;
@@ -157,7 +159,7 @@ int main() {
     glEnableVertexAttribArray(0);
 
     glm::mat4 ls_model;
-    glm::vec3 light_source_pos = glm::vec3(-10.0f, 0.0f, 0.0f);
+    glm::vec3 light_source_pos = glm::vec3(-40.0f, 0.0f, 0.0f);
     int light_source_pos_loc;
 
     ls_model      = glm::mat4(1.0f);
@@ -174,13 +176,22 @@ int main() {
     const float camera_rotation_radius = 10.0f;
     set_up_camera(&camera, view_pos, glm::vec3(0.0, 0.0, 0.0));
 
+    /* ground */
+    unsigned int ground_shader = load_shaders("../shaders/groundVert.glsl", "../shaders/groundFrag.glsl");
+    struct Ground ground;
+    generate_ground_vertices(ground.vertices);
+    init_ground(&ground);
+
+    ground.model      = glm::mat4(1.0f);
+    ground.model      = glm::scale(ground.model, glm::vec3(10.0f));
+
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         
         glClear(GL_DEPTH_BUFFER_BIT);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glfwGetCursorPos(window, &mouse_xpos, &mouse_ypos);
+        //glfwGetCursorPos(window, &mouse_xpos, &mouse_ypos);
         // light_source_pos.x = mouse_xpos;
         // light_source_pos.y = mouse_ypos;
         // ls_model      = glm::translate(ls_model, light_source_pos);
@@ -195,6 +206,7 @@ int main() {
         camera.direction   = glm::normalize(camera.direction);
         //printf("camera.direction.z  = %f\n", camera.direction.z);
         view = update_camera(&camera, camera.position + camera.direction);
+        
         glUseProgram(container_shader);
 
         model_loc = glGetUniformLocation(container_shader, "model");
@@ -234,6 +246,22 @@ int main() {
         glDepthFunc(GL_LEQUAL);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
+        /* ground shading */
+        glBindVertexArray(ground.VAO);
+        glUseProgram(ground_shader);
+
+        ground.model_loc = glGetUniformLocation(ground_shader, "model");
+        glUniformMatrix4fv(ground.model_loc, 1, GL_FALSE, glm::value_ptr(ground.model));
+
+        view_loc = glGetUniformLocation(ground_shader, "view");
+        glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(view));
+
+        projection_loc = glGetUniformLocation(ground_shader, "projection");
+        glUniformMatrix4fv(projection_loc, 1, GL_FALSE, glm::value_ptr(projection));
+
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LEQUAL);
+        glDrawArrays(GL_LINES, 0, 40);
 
         
 
@@ -287,10 +315,6 @@ void mouse_callback(GLFWwindow *window, double xpos, double ypos) {
 
     mouse_cam_data.pitch += y_offset;
     mouse_cam_data.yaw   += x_offset;
-
-    printf("yaw = %f\n", mouse_cam_data.yaw);
-    printf("x_offset = %f\n", x_offset);
-
 
     if (mouse_cam_data.pitch > 89.0f)
         mouse_cam_data.pitch = 89.0f;
