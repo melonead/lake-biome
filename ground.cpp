@@ -6,13 +6,13 @@
 
 void generate_ground_vertices(float *vertices) {
     float lines = 10.0f;
-    float delta = 2.0f / lines;
+    float delta = 20.0f / lines;
     printf("delta = %f\n", delta);
     int index = 0;
     // vertical lines
-    float p = 1;
-    float n = -1;
-    float x = -1;
+    float p = 10;
+    float n = -10;
+    float x = -10;
     for(int i = 0; i < 10; i++) {
         vertices[index] = x;
         vertices[index + 1] = p;

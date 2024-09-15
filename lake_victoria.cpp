@@ -117,7 +117,7 @@ int main() {
     unsigned int container_shader = load_shaders("../shaders/containerVert.glsl", "../shaders/containerFrag.glsl");
     /* transformation data */
     glm::mat4 model, view, projection;
-    glm::vec3 view_pos = glm::vec3(0.0f, 0.0f, -30.0f);
+    glm::vec3 view_pos = glm::vec3(0.0f, -40.0f, -30.0f);
     int view_pos_loc;
     model      = glm::mat4(1.0f);
     model      = glm::translate(model, glm::vec3(0.0, 0.0, 0.0));
@@ -183,7 +183,7 @@ int main() {
     init_ground(&ground);
 
     ground.model      = glm::mat4(1.0f);
-    ground.model      = glm::scale(ground.model, glm::vec3(10.0f));
+    ground.model      = glm::scale(ground.model, glm::vec3(2.0f));
 
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
