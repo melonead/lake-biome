@@ -5,7 +5,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#define CONTROL_WITH_MOUSE 1
+
 struct Camera {
+    bool rotate;
     float yaw;
     float pitch;
     glm::vec3 position;

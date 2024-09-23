@@ -7,9 +7,22 @@ Implement a Camera:
     - move(rotational, translational)
     - better camera control, i want the object pointed to by the camera to be visible when i start up
         (are we even pointing at what i think we are pointing at?)
-    - 
+    - To read:
+        - T. Reed, OpenGL Part 3B: Camera Control (blog). Accessed July 2020, 
+        https://www.trentreed.net/blog/qt5-opengl-part-3b-camera-control
+
+        23/09/2024
+    - set the yaw and pitch only once (the target does not change through out the application)
+    - the mouse control should the make the camera rotate around the y-axis
+        
 Implement Ground:
-    - draw the "ground" centered at the world 
+    - draw the "ground" centered at the world
+    23/09/2024
+    - the ground should be a quad, saves all the unnecessary vertices (quad has atmost 6 vertices)
+    - probably use a texture to exaggerate the perspective
 
 Draw axis of the coordinate systems:
     - world space
+
+Abstract all the ground code:
+    - put the drawing code in a function

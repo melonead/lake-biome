@@ -5,33 +5,35 @@
 #include "shader.h"
 
 void generate_ground_vertices(float *vertices) {
-    float lines = 10.0f;
-    float delta = 20.0f / lines;
+    
+    float end = 30.0f;
+    float beg = -30.0f;
+    float x = -30.0f; 
+
+    float delta =  (end - beg) / GROUND_LINES;
     printf("delta = %f\n", delta);
     int index = 0;
-    // vertical lines
-    float p = 10;
-    float n = -10;
-    float x = -10;
-    for(int i = 0; i < 10; i++) {
+    while(x < end) {
+        // vertical line
         vertices[index] = x;
-        vertices[index + 1] = p;
-        vertices[index + 2] = 0.0f;
+        vertices[index + 1] = 0.0f;
+        vertices[index + 2] = beg;
 
         vertices[index + 3] = x;
-        vertices[index + 4] = n;
-        vertices[index + 5] = 0.0f;
+        vertices[index + 4] = 0.0f;
+        vertices[index + 5] = end;
+        // horizontal line
+        vertices[index + 6] = beg;
+        vertices[index + 7] = 0.0f;
+        vertices[index + 8] = x;
 
-        vertices[index + 6] = p;
-        vertices[index + 7] = x;
-        vertices[index + 8] = 0.0f;
-
-        vertices[index + 9] = n;
-        vertices[index + 10] = x;
-        vertices[index + 11] = 0.0f;
+        vertices[index + 9] = end;
+        vertices[index + 10] = 0.0f;
+        vertices[index + 11] = x;
 
         index += 12;
         x += delta;
+        printf("x = %f \n", x);
     }
 }
 
