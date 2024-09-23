@@ -4,40 +4,43 @@
 #include "ground.h"
 #include "shader.h"
 
-void generate_ground_vertices(float *vertices) {
-    
-    float end = 30.0f;
-    float beg = -30.0f;
-    float x = -30.0f; 
+void generate_ground_vertices(struct Ground *ground) {
+    float width = 20.0f;
+    glm::vec3 top_left = glm::vec3(-10.0f, 0.0f, -10.0f);
 
-    float delta =  (end - beg) / GROUND_LINES;
-    printf("delta = %f\n", delta);
-    int index = 0;
-    while(x < end) {
-        // vertical line
-        vertices[index] = x;
-        vertices[index + 1] = 0.0f;
-        vertices[index + 2] = beg;
+    /* first triangle */
+    // top left
+    ground->vertices[0] = top_left.x;
+    ground->vertices[1] = top_left.y;
+    ground->vertices[2] = top_left.z;
+    // bottom left
+    ground->vertices[3] = top_left.x;
+    ground->vertices[4] = top_left.y;
+    ground->vertices[5] = top_left.z + width;
+    // bottom right
+    ground->vertices[6] = top_left.x + width;
+    ground->vertices[7] = top_left.y;
+    ground->vertices[8] = top_left.z + width;
 
-        vertices[index + 3] = x;
-        vertices[index + 4] = 0.0f;
-        vertices[index + 5] = end;
-        // horizontal line
-        vertices[index + 6] = beg;
-        vertices[index + 7] = 0.0f;
-        vertices[index + 8] = x;
+    /* second triangle */
+    // top left
+    ground->vertices[15] = top_left.x;
+    ground->vertices[16] = top_left.y;
+    ground->vertices[17] = top_left.z;
+    // top right
+    ground->vertices[12] = top_left.x + width;
+    ground->vertices[13] = top_left.y;
+    ground->vertices[14] = top_left.z;
+    // bottom right
+    ground->vertices[9] = top_left.x + width;
+    ground->vertices[10] = top_left.y;
+    ground->vertices[11] = top_left.z + width;
 
-        vertices[index + 9] = end;
-        vertices[index + 10] = 0.0f;
-        vertices[index + 11] = x;
 
-        index += 12;
-        x += delta;
-        printf("x = %f \n", x);
-    }
 }
 
 void init_ground(struct Ground *ground) {
+    generate_ground_vertices(ground);
     glGenVertexArrays(1, &ground->VAO);
     glGenBuffers(1, &ground->VBO);
     glBindVertexArray(ground->VAO);

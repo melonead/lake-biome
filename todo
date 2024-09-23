@@ -14,6 +14,7 @@ Implement a Camera:
         23/09/2024
     - set the yaw and pitch only once (the target does not change through out the application)
     - the mouse control should the make the camera rotate around the y-axis
+    - clean up the keyboard control of the camera, the camera is moving in unexpected ways
         
 Implement Ground:
     - draw the "ground" centered at the world

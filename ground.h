@@ -5,8 +5,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#define GROUND_LINES 15
-#define GROUND_VERTICES_COUNT GROUND_LINES * 4
+
+#define GROUND_VERTICES_COUNT 6
 
 struct Ground {
     glm::vec3 top_left;
@@ -16,10 +16,10 @@ struct Ground {
     unsigned int VBO;
     unsigned int VAO;
     int model_loc;
-    glm::mat4 model;
+    glm::mat4 model; // do i need to store the model matrix in here?
 };
 
-void generate_ground_vertices(float *vertices);
+void generate_ground_vertices(struct Ground *ground);
 void init_ground(struct Ground *ground);
 
 

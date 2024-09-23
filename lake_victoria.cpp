@@ -173,13 +173,11 @@ int main() {
 
     /* set up camera data */   
     struct Camera camera;
-    const float camera_rotation_radius = 10.0f;
     set_up_camera(&camera, view_pos, glm::vec3(0.0, 0.0, 0.0));
 
     /* ground */
     unsigned int ground_shader = load_shaders("../shaders/groundVert.glsl", "../shaders/groundFrag.glsl");
     struct Ground ground;
-    generate_ground_vertices(ground.vertices);
     init_ground(&ground);
 
     ground.model      = glm::mat4(1.0f);
@@ -202,8 +200,6 @@ int main() {
         // ls_model      = glm::translate(ls_model, light_source_pos);
         
         /* camera stuff */
-        // camera.position.x = sin(glfwGetTime()) * camera_rotation_radius;
-        // camera.position.y = cos(glfwGetTime()) * camera_rotation_radius;
         view = glm::lookAt(camera.position, camera.position + mouse_cam_data.front, glm::vec3(0.0, 1.0, 0.0));
         camera.direction.x = mouse_cam_data.direction.x;
         camera.direction.y = mouse_cam_data.direction.y;
@@ -267,7 +263,7 @@ int main() {
 
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
-        glDrawArrays(GL_LINES, 0, GROUND_VERTICES_COUNT);
+        glDrawArrays(GL_TRIANGLES, 0, GROUND_VERTICES_COUNT);
 
         
 
