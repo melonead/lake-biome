@@ -16,8 +16,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 
 struct mouse_camera_data {
-    float pitch = 15.0f;
-    float yaw = 90.0f;
+    float pitch = 0.0f;
+    float yaw = 0.0f;
     float last_x = 300;
     float last_y = 300;
     float zoom;
@@ -117,10 +117,10 @@ int main() {
     unsigned int container_shader = load_shaders("../shaders/containerVert.glsl", "../shaders/containerFrag.glsl");
     /* transformation data */
     glm::mat4 model, view, projection;
-    glm::vec3 view_pos = glm::vec3(0.0f, 30.0f, 60.0f);
+    glm::vec3 view_pos = glm::vec3(0.0f, 5.0f, 60.0f);
     int view_pos_loc;
     model      = glm::mat4(1.0f);
-    model      = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+    model      = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f));
    // model      = glm::rotate(model, glm::radians(-55.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     model      = glm::scale(model, glm::vec3(1.0f));
     view       = glm::mat4(1.0f);
@@ -193,20 +193,12 @@ int main() {
         
         glClear(GL_DEPTH_BUFFER_BIT);
         glClear(GL_COLOR_BUFFER_BIT);
-
-        //glfwGetCursorPos(window, &mouse_xpos, &mouse_ypos);
-        // light_source_pos.x = mouse_xpos;
-        // light_source_pos.y = mouse_ypos;
-        // ls_model      = glm::translate(ls_model, light_source_pos);
         
         /* camera stuff */
-        view = glm::lookAt(camera.position, camera.position + mouse_cam_data.front, glm::vec3(0.0, 1.0, 0.0));
         camera.direction.x = mouse_cam_data.direction.x;
         camera.direction.y = mouse_cam_data.direction.y;
         camera.direction.z = mouse_cam_data.direction.z;
         camera.direction   = glm::normalize(camera.direction);
-        //view       = glm::rotate(view, glm::radians(0.050f), glm::vec3(0.0f, 1.0f, 0.0f));
-        // printf("camera location: x = %f, y = %f, z = %f\n", camera.direction.x, camera.direction.y, camera.direction.z);
         view = update_camera(&camera, camera.position - camera.direction);
         
         glUseProgram(container_shader);
@@ -282,7 +274,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void processInput(GLFWwindow* window, struct Camera *camera)
 {   
-    const float camera_speed = 0.02f;
+    const float camera_speed = 0.002f;
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
     
@@ -337,10 +329,10 @@ void mouse_callback(GLFWwindow *window, double xpos, double ypos) {
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
- {
+{
     mouse_cam_data.zoom-= (float)yoffset;
     if (mouse_cam_data.zoom < 1.0f)
         mouse_cam_data.zoom = 1.0f;
     if (mouse_cam_data.zoom > 45.0f)
         mouse_cam_data.zoom = 45.0f;
- }
+}

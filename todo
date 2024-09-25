@@ -21,6 +21,8 @@ Implement Ground:
     23/09/2024
     - the ground should be a quad, saves all the unnecessary vertices (quad has atmost 6 vertices)
     - probably use a texture to exaggerate the perspective
+    24/09/2024
+    - render expansive grounds, using multiple textures perhaps 
 
 Draw axis of the coordinate systems:
     - world space

@@ -9,9 +9,8 @@
 #define GROUND_VERTICES_COUNT 6
 
 struct Ground {
-    glm::vec3 top_left;
-    float width;
-    float length;
+    glm::vec3 top_left = glm::vec3(-20.0f, 0.0f, -20.0f);
+    float width = 40.0f;
     float vertices[GROUND_VERTICES_COUNT * 3];
     unsigned int VBO;
     unsigned int VAO;
